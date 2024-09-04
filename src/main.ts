@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ValidationPipe } from "@nestjs/common";
+import { useContainer } from "class-validator";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,8 @@ async function bootstrap() {
       disableErrorMessages: process.env.NODE_ENV === "production",
     }),
   );
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   if (process.env.NODE_ENV === "development") {
     const config = new DocumentBuilder()
