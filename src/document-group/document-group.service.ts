@@ -39,7 +39,10 @@ export class DocumentGroupService {
 
     return {
       total: documentsGroupAggr[0].data[0]?.total || 0,
-      sites: documentsGroupAggr[0].documentsGroup,
+      sites:
+        documentsGroupAggr[0].documentsGroup.length > 0
+          ? documentsGroupAggr[0].documentsGroup
+          : [],
     };
   }
 
