@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+import { plainToInstance } from "class-transformer";
 import {
   registerDecorator,
   validate,
@@ -9,10 +10,9 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from "class-validator";
-import mongoose, { Model } from "mongoose";
-import { Document } from "../document/document.schema";
-import { plainToInstance } from "class-transformer";
+import mongoose, { Model, mongo } from "mongoose";
 import { CreateDocumentDTO } from "src/document/dto/dto";
+import { Document } from "../document/document.schema";
 
 export function DocumentExistsOrNew(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
@@ -39,7 +39,7 @@ export class DocumentExistsOrNewConstraint
   ) {}
 
   async validate(
-    data: Array<mongoose.Types.ObjectId | object | any>,
+    data: Array<mongoose.Types.ObjectId | object>,
     args: ValidationArguments,
   ): Promise<boolean> {
     try {
@@ -47,8 +47,8 @@ export class DocumentExistsOrNewConstraint
       const newDocumentObjects: object[] = [];
 
       for (const item of data) {
-        if (mongoose.Types.ObjectId.isValid(item)) {
-          objectIds.push(item);
+        if (mongoose.Types.ObjectId.isValid(item as mongoose.Types.ObjectId)) {
+          objectIds.push(item as mongoose.Types.ObjectId);
         } else if (typeof item === "object") {
           newDocumentObjects.push(item);
         } else {

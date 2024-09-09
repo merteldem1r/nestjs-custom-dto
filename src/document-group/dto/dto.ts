@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
+import mongoose from "mongoose";
 import { DocumentExistsOrNew } from "src/validators/document-exists-new.validator";
 
 export class CreateDocumentGroupDTO {
@@ -20,5 +21,5 @@ export class CreateDocumentGroupDTO {
   @IsArray()
   @ArrayNotEmpty()
   @DocumentExistsOrNew()
-  documents: string;
+  documents: mongoose.Types.ObjectId[] | object[];
 }

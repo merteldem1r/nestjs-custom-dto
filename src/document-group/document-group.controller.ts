@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import { CreateDocumentGroupDTO } from "./dto/dto";
 import { DocumentGroupService } from "./document-group.service";
@@ -9,8 +9,14 @@ export class DocumentGroupController {
 
   @ApiOperation({ summary: "Get All Document Groups" })
   @Get()
-  async getAllDocumentGroups() {
-    return await this._DocumentGroupService.getAllDocumentGroups();
+  async getAllDocumentGroups(
+    @Query("pageIndex") pageIndex: number,
+    @Query("pageSize") pageSize: number,
+  ) {
+    return await this._DocumentGroupService.getAllDocumentGroups(
+      pageIndex,
+      pageSize,
+    );
   }
 
   @ApiOperation({ summary: "Create a Document Group" })

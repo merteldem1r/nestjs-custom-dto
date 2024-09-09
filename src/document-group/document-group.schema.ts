@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class DocumentGroup {
   @Prop({
     required: true,
