@@ -65,7 +65,7 @@ export class DocumentGroupService {
       }
     }
 
-    let newDocumentIds = [];
+    const newDocumentIds = [];
 
     if (newDocumentObjects.length > 0) {
       const createdNewDocuments =
