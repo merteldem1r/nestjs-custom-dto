@@ -47,7 +47,7 @@ export class DocumentExistsOrNewConstraint
       const newDocumentObjects: object[] = [];
 
       for (const item of data) {
-        if (mongoose.Types.ObjectId.isValid(item as mongoose.Types.ObjectId)) {
+        if (typeof item === "string" && mongoose.Types.ObjectId.isValid(item)) {
           objectIds.push(item as mongoose.Types.ObjectId);
         } else if (typeof item === "object") {
           newDocumentObjects.push(item);
