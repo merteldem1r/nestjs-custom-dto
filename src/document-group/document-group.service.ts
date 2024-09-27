@@ -65,13 +65,16 @@ export class DocumentGroupService {
       }
     }
 
-    let createdNewDocuments = await this.DocumentModel.create();
+    let newDocumentIds = [];
 
     if (newDocumentObjects.length > 0) {
-      createdNewDocuments = await this.DocumentModel.create(newDocumentObjects);
-    }
+      const createdNewDocuments =
+        await this.DocumentModel.create(newDocumentObjects);
 
-    const newDocumentIds = createdNewDocuments.map((doc) => doc._id);
+      for (const doc of createdNewDocuments) {
+        newDocumentIds.push(doc._id);
+      }
+    }
 
     const documentGroup = await this.DocumentGroupModel.create({
       ...data,
